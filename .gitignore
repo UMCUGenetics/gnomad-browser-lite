@@ -27,3 +27,6 @@ report.json
 # OS
 .DS_Store
 Thumbs.db
+
+# parquet files
+data/*.parquet
