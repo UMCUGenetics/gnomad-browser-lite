@@ -29,11 +29,11 @@ RUN apt-get update \
 
 WORKDIR /src
 
-COPY genohype /src/genohype
+COPY backend/dependencies/genohype /src/genohype
 COPY backend /src/gnomad-browser-lite/backend
 # fastVEP: only its manifests are read (the `vep` feature is off so nothing here
 # compiles); present so cargo can resolve genohype-core/cli's optional path deps.
-COPY fastVEP /src/fastVEP
+COPY backend/dependencies/fastVEP /src/fastVEP
 
 WORKDIR /src/gnomad-browser-lite/backend
 # `bundled` = self-contained DuckDB (no system libduckdb needed at runtime).
@@ -66,4 +66,5 @@ ENV PORT=8000
 EXPOSE 8000
 
 # No subcommand = serve. Default config (no file) = hail-gcs over public GCS.
-CMD ["backend"]
+ENTRYPOINT ["usr/local/bin/backend"]
+CMD []

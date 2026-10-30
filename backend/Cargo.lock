@@ -1539,6 +1539,7 @@ dependencies = [
 [[package]]
 name = "fastvep-annotate"
 version = "0.1.0"
+source = "git+https://github.com/mattsolo1/fastVEP.git?rev=58f6c498be34b4b26a84a299195467c8b10fe155#58f6c498be34b4b26a84a299195467c8b10fe155"
 dependencies = [
  "anyhow",
  "fastvep-cache",
@@ -1559,6 +1560,7 @@ dependencies = [
 [[package]]
 name = "fastvep-cache"
 version = "0.1.0"
+source = "git+https://github.com/mattsolo1/fastVEP.git?rev=58f6c498be34b4b26a84a299195467c8b10fe155#58f6c498be34b4b26a84a299195467c8b10fe155"
 dependencies = [
  "anyhow",
  "bincode",
@@ -1579,6 +1581,7 @@ dependencies = [
 [[package]]
 name = "fastvep-classification"
 version = "0.1.0"
+source = "git+https://github.com/mattsolo1/fastVEP.git?rev=58f6c498be34b4b26a84a299195467c8b10fe155#58f6c498be34b4b26a84a299195467c8b10fe155"
 dependencies = [
  "anyhow",
  "fastvep-core",
@@ -1591,6 +1594,7 @@ dependencies = [
 [[package]]
 name = "fastvep-consequence"
 version = "0.1.0"
+source = "git+https://github.com/mattsolo1/fastVEP.git?rev=58f6c498be34b4b26a84a299195467c8b10fe155#58f6c498be34b4b26a84a299195467c8b10fe155"
 dependencies = [
  "fastvep-core",
  "fastvep-genome",
@@ -1600,6 +1604,7 @@ dependencies = [
 [[package]]
 name = "fastvep-core"
 version = "0.1.0"
+source = "git+https://github.com/mattsolo1/fastVEP.git?rev=58f6c498be34b4b26a84a299195467c8b10fe155#58f6c498be34b4b26a84a299195467c8b10fe155"
 dependencies = [
  "serde",
  "thiserror 2.0.18",
@@ -1608,6 +1613,7 @@ dependencies = [
 [[package]]
 name = "fastvep-genome"
 version = "0.1.0"
+source = "git+https://github.com/mattsolo1/fastVEP.git?rev=58f6c498be34b4b26a84a299195467c8b10fe155#58f6c498be34b4b26a84a299195467c8b10fe155"
 dependencies = [
  "fastvep-core",
  "serde",
@@ -1616,6 +1622,7 @@ dependencies = [
 [[package]]
 name = "fastvep-hgvs"
 version = "0.1.0"
+source = "git+https://github.com/mattsolo1/fastVEP.git?rev=58f6c498be34b4b26a84a299195467c8b10fe155#58f6c498be34b4b26a84a299195467c8b10fe155"
 dependencies = [
  "fastvep-core",
  "fastvep-genome",
@@ -1624,6 +1631,7 @@ dependencies = [
 [[package]]
 name = "fastvep-io"
 version = "0.1.0"
+source = "git+https://github.com/mattsolo1/fastVEP.git?rev=58f6c498be34b4b26a84a299195467c8b10fe155#58f6c498be34b4b26a84a299195467c8b10fe155"
 dependencies = [
  "anyhow",
  "fastvep-core",
@@ -1636,6 +1644,7 @@ dependencies = [
 [[package]]
 name = "fastvep-loftee"
 version = "0.1.0"
+source = "git+https://github.com/mattsolo1/fastVEP.git?rev=58f6c498be34b4b26a84a299195467c8b10fe155#58f6c498be34b4b26a84a299195467c8b10fe155"
 dependencies = [
  "fastvep-cache",
  "fastvep-core",
@@ -1647,6 +1656,7 @@ dependencies = [
 [[package]]
 name = "fastvep-sa"
 version = "0.1.0"
+source = "git+https://github.com/mattsolo1/fastVEP.git?rev=58f6c498be34b4b26a84a299195467c8b10fe155#58f6c498be34b4b26a84a299195467c8b10fe155"
 dependencies = [
  "anyhow",
  "bincode",

@@ -1,6 +1,7 @@
 services:
   backend:
     image: gnomad-browser-lite-backend:local
+    platform: linux/amd64
 
     build:
       context: .
@@ -10,13 +11,22 @@ services:
       PORT: "8000"
       RUST_LOG: "${RUST_LOG:-info}"
 
-    expose:
-      - "8000"
+    volumes:
+      - ./config/gbl.toml:/config/gbl.toml:ro
+      - ./data:/data:ro
+
+    command:
+      - "--config"
+      - "/config/gbl.toml"
+
+    ports:
+      - "8000:8000"
 
     restart: unless-stopped
 
   frontend:
     image: gnomad-browser-lite-frontend:local
+    platform: linux/amd64
 
     build:
       context: .
