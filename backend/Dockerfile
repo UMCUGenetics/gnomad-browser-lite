@@ -12,14 +12,20 @@
 # end-to-end with no config file (the lean-smoke first signal). Other arms are
 # selected at runtime with `backend --config <arm>.toml`.
 
-FROM rust:1.91-slim-bookworm AS builder
+FROM rust:1.91-slim-bookworm@sha256:8514999d4786ef12efe89239e86b3d0a021b94b9d35108c8efe6c79ca7dc1a65 AS builder
+
+# maak builder packages beschikbaar voor we installen
+COPY gnomad-browser-lite/backend/builder-packages.lock \
+     /tmp/builder-packages.lock
 
 # Build deps: DuckDB `bundled` compiles the amalgamation (cc/cmake) and its
 # bindings use clang/libclang; openssl-sys (pulled transitively) needs
 # pkg-config + libssl. All builder-stage only — the runtime image stays slim.
-RUN apt-get update && apt-get install -y --no-install-recommends \
-      build-essential cmake clang libclang-dev pkg-config libssl-dev ca-certificates \
-    && rm -rf /var/lib/apt/lists/*
+RUN apt-get update \
+    && grep -Ev '^[[:space:]]*(#|$)' /tmp/builder-packages.lock \
+       | xargs apt-get install -y --no-install-recommends \
+    && rm -rf /var/lib/apt/lists/* \
+    && rm -f /tmp/builder-packages.lock
 
 WORKDIR /src
 COPY genohype /src/genohype
@@ -30,18 +36,26 @@ COPY fastVEP /src/fastVEP
 
 WORKDIR /src/gnomad-browser-lite/backend
 # `bundled` = self-contained DuckDB (no system libduckdb needed at runtime).
-RUN cargo build --release --features bundled
+RUN cargo build --release --locked --features bundled
 
 # ---------------------------------------------------------------------------
-FROM debian:bookworm-slim AS runtime
+FROM debian:bookworm-slim@sha256:99c0b25c46d0214d5a2091092e7908907dcaecd6a962cde0ac700acee222b6f3 AS runtime
 
-RUN apt-get update && apt-get install -y --no-install-recommends \
-      ca-certificates libgomp1 \
-    && rm -rf /var/lib/apt/lists/*
+# maak runtime packages beschikbaar
+COPY gnomad-browser-lite/backend/runtime-packages.lock \
+     /tmp/runtime-packages.lock
+
+RUN apt-get update \
+    && grep -Ev '^[[:space:]]*(#|$)' /tmp/runtime-packages.lock \
+       | xargs apt-get install -y --no-install-recommends \
+    && rm -rf /var/lib/apt/lists/* \
+    && rm -f /tmp/runtime-packages.lock
 
 RUN useradd -r -s /usr/sbin/nologin bench
 
-COPY --from=builder /src/gnomad-browser-lite/backend/target/release/backend /usr/local/bin/backend
+COPY --from=builder \
+    /src/gnomad-browser-lite/backend/target/release/backend \
+    /usr/local/bin/backend
 
 USER bench
 ENV RUST_LOG=info
