@@ -15,7 +15,7 @@
 FROM rust:1.91-slim-bookworm@sha256:8514999d4786ef12efe89239e86b3d0a021b94b9d35108c8efe6c79ca7dc1a65 AS builder
 
 # maak builder packages beschikbaar voor we installen
-COPY gnomad-browser-lite/backend/builder-packages.lock \
+COPY backend/builder-packages.lock \
      /tmp/builder-packages.lock
 
 # Build deps: DuckDB `bundled` compiles the amalgamation (cc/cmake) and its
@@ -28,8 +28,9 @@ RUN apt-get update \
     && rm -f /tmp/builder-packages.lock
 
 WORKDIR /src
+
 COPY genohype /src/genohype
-COPY gnomad-browser-lite/backend /src/gnomad-browser-lite/backend
+COPY backend /src/gnomad-browser-lite/backend
 # fastVEP: only its manifests are read (the `vep` feature is off so nothing here
 # compiles); present so cargo can resolve genohype-core/cli's optional path deps.
 COPY fastVEP /src/fastVEP
@@ -42,7 +43,7 @@ RUN cargo build --release --locked --features bundled
 FROM debian:bookworm-slim@sha256:99c0b25c46d0214d5a2091092e7908907dcaecd6a962cde0ac700acee222b6f3 AS runtime
 
 # maak runtime packages beschikbaar
-COPY gnomad-browser-lite/backend/runtime-packages.lock \
+COPY backend/runtime-packages.lock \
      /tmp/runtime-packages.lock
 
 RUN apt-get update \
