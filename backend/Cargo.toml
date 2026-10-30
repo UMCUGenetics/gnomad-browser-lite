@@ -5,7 +5,13 @@ edition = "2024"
 
 [features]
 default = []
-bundled = ["duckdb/bundled"]  # Use for production builds without system DuckDB
+# self contained DuckDB with Parquet and JSON support
+# no system duckdb or runtime extention downloads required
+bundled = [
+    "duckdb/bundled", 
+    "duckdb/parquet",
+    "duckdb/json",
+]
 # Optional on-the-fly VEP annotation in the Hail backend (pulls in fastVEP via
 # genohype-core). Off by default: the benchmark serves precomputed consequences,
 # so the API image ships without it. Build with --features vep to enable locally.

@@ -11,6 +11,6 @@ type = "duckdb"
 data_dir = "/data"
 
 [branding]
-name = "gnomAD Browser Lite (local)"
+name = "UMCU gnomAD Browser Lite (local)"
 navbar_color = "#333"
 accent_color = "#0066cc"

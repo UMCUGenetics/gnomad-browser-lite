@@ -66,5 +66,5 @@ ENV PORT=8000
 EXPOSE 8000
 
 # No subcommand = serve. Default config (no file) = hail-gcs over public GCS.
-ENTRYPOINT ["usr/local/bin/backend"]
+ENTRYPOINT ["/usr/local/bin/backend"]
 CMD []
