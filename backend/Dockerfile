@@ -29,11 +29,11 @@ RUN apt-get update \
 
 WORKDIR /src
 
-COPY backend/dependencies/genohype /src/genohype
+COPY shared/genohype /src/genohype
 COPY backend /src/gnomad-browser-lite/backend
 # fastVEP: only its manifests are read (the `vep` feature is off so nothing here
 # compiles); present so cargo can resolve genohype-core/cli's optional path deps.
-COPY backend/dependencies/fastVEP /src/fastVEP
+COPY shared/fastVEP /src/fastVEP
 
 WORKDIR /src/gnomad-browser-lite/backend
 # `bundled` = self-contained DuckDB (no system libduckdb needed at runtime).

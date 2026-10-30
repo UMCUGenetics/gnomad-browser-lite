@@ -1,6 +1,6 @@
-[submodule "backend/dependencies/genohype"]
-	path = backend/dependencies/genohype
+[submodule "shared/genohype"]
+	path = shared/genohype
 	url = ssh://git@github.com/broadinstitute/genohype.git
-[submodule "backend/dependencies/fastVEP"]
-	path = backend/dependencies/fastVEP
+[submodule "shared/fastVEP"]
+	path = shared/fastVEP
 	url = ssh://git@github.com/mattsolo1/fastVEP.git
