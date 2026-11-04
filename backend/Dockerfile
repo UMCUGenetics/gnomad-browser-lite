@@ -62,8 +62,8 @@ USER bench
 ENV RUST_LOG=info
 # The server resolves its listen port from $PORT (Cloud Run overrides this to
 # match container_port; see infra/main.tf api_port).
-ENV PORT=8000
-EXPOSE 8000
+ENV PORT=3000
+EXPOSE 3000
 
 # No subcommand = serve. Default config (no file) = hail-gcs over public GCS.
 ENTRYPOINT ["/usr/local/bin/backend"]

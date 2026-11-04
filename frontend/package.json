@@ -2,6 +2,7 @@
   "name": "frontend",
   "private": true,
   "version": "0.0.0",
+  "packageManager": "pnpm@8.15.9",
   "type": "module",
   "scripts": {
     "dev": "vite",
@@ -47,6 +48,7 @@
     "@types/node": "^24.10.1",
     "@types/react": "^19.2.5",
     "@types/react-dom": "^19.2.3",
+    "@types/react-window": "1.8.8",
     "@vitejs/plugin-react": "^4.7.0",
     "eslint": "^9.39.1",
     "eslint-plugin-react-hooks": "^7.0.1",

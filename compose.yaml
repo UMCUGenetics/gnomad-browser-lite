@@ -8,7 +8,7 @@ services:
       dockerfile: backend/Dockerfile
 
     environment:
-      PORT: "8000"
+      PORT: "3000"
       RUST_LOG: "${RUST_LOG:-info}"
 
     volumes:
@@ -20,7 +20,7 @@ services:
       - "/config/gbl.toml"
 
     ports:
-      - "8000:8000"
+      - "8000:3000"
 
     restart: unless-stopped
 

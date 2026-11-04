@@ -30,3 +30,5 @@ Thumbs.db
 
 # parquet files
 data/*.parquet
+
+**/.pnpm-store/
