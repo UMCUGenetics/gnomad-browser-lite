@@ -20,6 +20,14 @@ export interface BrandingConfig {
   about_content?: string;
   terms_content?: string;
   external_links?: ExternalLink[];
+  groups?: GroupsConfig;
+}
+
+/** Stratification groups for the frequency table (`[branding.groups]` in gbl.toml). */
+export interface GroupsConfig {
+  title?: string;
+  column_label?: string;
+  labels?: Record<string, string>;
 }
 
 // ==================== Data Types ====================

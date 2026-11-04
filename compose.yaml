@@ -1,0 +1,50 @@
+services:
+  backend:
+    image: gnomad-browser-lite-backend:local
+    platform: linux/amd64
+
+    build:
+      context: .
+      dockerfile: backend/Dockerfile
+
+    environment:
+      PORT: "3000"
+      RUST_LOG: "${RUST_LOG:-info}"
+
+    volumes:
+      - ./config/gbl.toml:/config/gbl.toml:ro
+      - ./data:/data:ro
+
+    command:
+      - "--config"
+      - "/config/gbl.toml"
+
+    ports:
+      # Host port is configurable; the container always listens on PORT above.
+      - "${BACKEND_HOST_PORT:-8000}:3000"
+
+    restart: unless-stopped
+
+  frontend:
+    image: gnomad-browser-lite-frontend:local
+    platform: linux/amd64
+
+    build:
+      context: .
+      dockerfile: frontend/Dockerfile
+      args:
+        # Baked into the frontend bundle at build time (import.meta.env.VITE_API_URL,
+        # read in frontend/src/api/client.ts). Must be a URL reachable from the
+        # browser, so default to the backend's published host port.
+        # Note: compose also reads .env for interpolation — a local-dev VITE_API_URL
+        # in .env would win over the default here, so override via shell env instead:
+        #   VITE_API_URL=http://localhost:9000 docker compose up --build
+        VITE_API_URL: "${VITE_API_URL:-http://localhost:${BACKEND_HOST_PORT:-8000}}"
+
+    depends_on:
+      - backend
+
+    ports:
+      - "${FRONTEND_PORT:-8080}:80"
+
+    restart: unless-stopped

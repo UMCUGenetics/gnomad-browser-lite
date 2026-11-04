@@ -1,5 +1,6 @@
 use anyhow::Result;
 use serde::{Deserialize, Serialize};
+use std::collections::HashMap;
 use std::path::Path;
 
 use crate::backend::elasticsearch::{DEFAULT_GENES_INDEX, DEFAULT_VARIANTS_INDEX};
@@ -94,6 +95,22 @@ pub struct ExternalLink {
     pub url: String,
 }
 
+/// Stratification groups shown in the variant page's frequency table, loaded from
+/// `[branding.groups]` in `gbl.toml`.
+///
+/// gnomAD stratifies by genetic ancestry, but an instance may store other groups in
+/// `ancestry_groups` (e.g. clinical indication). The frontend always shows every
+/// (non-XX/XY) group present in the data; this section only controls how they are labeled.
+#[derive(Debug, Deserialize, Serialize, Clone, Default)]
+pub struct GroupsConfig {
+    /// Section title above the table (default: "Population Frequencies").
+    pub title: Option<String>,
+    /// Label of the group column (default: "Genetic Ancestry Group").
+    pub column_label: Option<String>,
+    /// Display names per group id (falls back to the gnomAD name, then the id).
+    pub labels: Option<HashMap<String, String>>,
+}
+
 /// White-label branding configuration, loaded from `[branding]` in `gbl.toml`.
 #[derive(Debug, Deserialize, Serialize, Clone)]
 pub struct BrandingConfig {
@@ -115,6 +132,9 @@ pub struct BrandingConfig {
     #[serde(default)]
     pub terms_content: Option<String>,
     pub external_links: Option<Vec<ExternalLink>>,
+    /// Stratification groups for the frequency table (`[branding.groups]`).
+    #[serde(default)]
+    pub groups: Option<GroupsConfig>,
 }
 
 impl Default for BrandingConfig {
@@ -132,6 +152,7 @@ impl Default for BrandingConfig {
             about_content: None,
             terms_content: None,
             external_links: None,
+            groups: None,
         }
     }
 }

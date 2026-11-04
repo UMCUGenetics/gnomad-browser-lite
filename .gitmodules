@@ -1,0 +1,6 @@
+[submodule "shared/genohype"]
+	path = shared/genohype
+	url = ssh://git@github.com/broadinstitute/genohype.git
+[submodule "shared/fastVEP"]
+	path = shared/fastVEP
+	url = ssh://git@github.com/mattsolo1/fastVEP.git

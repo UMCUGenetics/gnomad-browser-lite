@@ -30,6 +30,19 @@ const POPULATION_NAMES: Record<string, string> = {
 // Main population IDs (not sex-stratified, in display order)
 const POPULATION_ORDER = ['afr', 'ami', 'amr', 'asj', 'eas', 'fin', 'mid', 'nfe', 'sas', 'remaining'];
 
+const isSexStratum = (id: string) => id === 'XX' || id === 'XY' || /_(XX|XY)$/.test(id);
+
+/**
+ * All (non-sex-stratified) group ids present in the data: known gnomAD groups in their
+ * usual order, then any other ids (e.g. custom groups from `[branding.groups]`) alphabetically.
+ */
+const orderGroups = (ids: string[]): string[] => {
+  const present = new Set(ids.filter(id => !isSexStratum(id)));
+  const known = POPULATION_ORDER.filter(id => present.has(id));
+  const other = [...present].filter(id => !POPULATION_ORDER.includes(id)).sort();
+  return [...known, ...other];
+};
+
 const Container = styled.div`
   max-width: 1400px;
   margin: 0 auto;
@@ -365,7 +378,9 @@ export function VariantPage() {
 
     const result: FormattedPopulation[] = [];
 
-    POPULATION_ORDER.forEach(popId => {
+    const groupLabels = branding.groups?.labels ?? {};
+
+    orderGroups([...popMap.keys()]).forEach(popId => {
       const mainPop = popMap.get(popId);
       if (!mainPop) return;
 
@@ -399,7 +414,7 @@ export function VariantPage() {
 
       result.push({
         id: popId,
-        name: POPULATION_NAMES[popId] || popId,
+        name: groupLabels[popId] || POPULATION_NAMES[popId] || popId,
         ac: mainPop.ac,
         an: mainPop.an,
         ac_hom: mainPop.homozygote_count,
@@ -412,7 +427,7 @@ export function VariantPage() {
     // matching gnomAD's layout where populations expand to show Overall/XX/XY
 
     return result;
-  }, [variant]);
+  }, [variant, branding.groups]);
 
   // Find primary gene for "Gene page" button
   const primaryGene = useMemo(() => {
@@ -603,9 +618,10 @@ export function VariantPage() {
       {/* Population Frequencies */}
       {populations.length > 0 && (
         <>
-          <SectionTitle>Population Frequencies</SectionTitle>
+          <SectionTitle>{branding.groups?.title || 'Population Frequencies'}</SectionTitle>
           <PopulationsTable
             populations={populations}
+            columnLabels={{ name: branding.groups?.column_label }}
             showHemizygotes={chrom === 'chrX' || chrom === 'X'}
           />
         </>

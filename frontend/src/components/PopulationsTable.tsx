@@ -152,6 +152,7 @@ type Population = {
 
 type PopulationsTableProps = {
   columnLabels?: {
+    name?: string;
     ac?: string;
     an?: string;
     af?: string;
@@ -336,7 +337,7 @@ export class PopulationsTable extends Component<PopulationsTableProps, Populatio
           <tr>
             {this.renderColumnHeader({
               key: 'name',
-              label: 'Genetic Ancestry Group',
+              label: columnLabels?.name || 'Genetic Ancestry Group',
               props: { colSpan: 2 },
             })}
             {this.renderColumnHeader({

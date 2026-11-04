@@ -150,6 +150,15 @@ accent_color     = "#0066cc"
 # short_name, full_title, navbar_text_color, logo_url, favicon_url,
 # homepage_content / about_content / terms_content (Markdown paths),
 # external_links = [{ label = "...", url = "..." }]
+
+# Optional: groups in the variant page's frequency table. gnomAD stratifies by
+# genetic ancestry, but `ancestry_groups` may hold any grouping (e.g. clinical
+# indication). Every (non-XX/XY) group in the data is shown; this section only
+# sets the labels.
+# [branding.groups]
+# title        = "Frequencies by indication"   # default: "Population Frequencies"
+# column_label = "Indication"                  # default: "Genetic Ancestry Group"
+# labels       = { CMP = "Cardiomyopathy", EPI = "Epilepsy" }
 ```
 
 To stand up a new consortium instance, copy an example, swap the `[backend]`
