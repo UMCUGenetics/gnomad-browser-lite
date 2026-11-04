@@ -20,7 +20,8 @@ services:
       - "/config/gbl.toml"
 
     ports:
-      - "8000:3000"
+      # Host port is configurable; the container always listens on PORT above.
+      - "${BACKEND_HOST_PORT:-8000}:3000"
 
     restart: unless-stopped
 
@@ -31,6 +32,14 @@ services:
     build:
       context: .
       dockerfile: frontend/Dockerfile
+      args:
+        # Baked into the frontend bundle at build time (import.meta.env.VITE_API_URL,
+        # read in frontend/src/api/client.ts). Must be a URL reachable from the
+        # browser, so default to the backend's published host port.
+        # Note: compose also reads .env for interpolation — a local-dev VITE_API_URL
+        # in .env would win over the default here, so override via shell env instead:
+        #   VITE_API_URL=http://localhost:9000 docker compose up --build
+        VITE_API_URL: "${VITE_API_URL:-http://localhost:${BACKEND_HOST_PORT:-8000}}"
 
     depends_on:
       - backend

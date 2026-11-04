@@ -93,6 +93,12 @@ RUN pnpm install --frozen-lockfile
 COPY frontend/ \
      /app/gnomad-browser-lite/frontend/
 
+# VITE_API_URL is baked into the bundle at build time (import.meta.env.VITE_API_URL,
+# read in frontend/src/api/client.ts). Supplied via compose build.args; when empty,
+# client.ts falls back to http://localhost:3000.
+ARG VITE_API_URL
+ENV VITE_API_URL=${VITE_API_URL}
+
 # Build the existing frontend without changing its implementation.
 # Vite transpiles TypeScript but does not run the separate tsc typecheck.
 RUN pnpm exec vite build
